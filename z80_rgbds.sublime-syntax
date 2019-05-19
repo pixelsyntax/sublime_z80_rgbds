@@ -1,0 +1,75 @@
+%YAML 1.2
+---
+name: Z80 Assembly (RGBDS)
+file_extensions: [asm, s, inc]
+scope: source.rgbds
+variables:
+  # macros, labels, constants etc: can't start w/ number, alphanum + underscore
+  namingrule: '[a-zA-Z_][a-zA-Z_0-9\\@]*'
+contexts:
+  main:
+    # stuff for the CPU
+    - match: ^\s*(ld|ldi|ldd|ldh|push|pop|add|adc|sub|sbc|and|or|xor|cp|inc|dec|daa|cpl|rlca|rla|rrca|rra|rlc|rl|rrc|rr|sla|swap|sra|srl|bit|res|set|ccf|scf|nop|halt|stop|di|ei|jp|jr|call|ret|reti|rst)
+      scope: keyword.rgbds
+    - match: (a|b|c|d|e|h|af|bc|de|hl|sp)
+      scope: variable.language.rgbds
+
+    # stuff for the assembler
+    - match: (MACRO|ENDM|IF|ENDC|REPT|ENDR|DB|DW|DS|INCLUDE|INCBIN|SECTION|EQU|FAIL|PUSHO|OPT|WARN|SET|POPO)
+      scope: support.function.rgbds
+    - match: ^\s*(\.?{{namingrule}})\s*(\:)\s*$
+      scope: meta.label.rgbds
+      captures: # FIXME: using class and operator for colours, not semantically correct
+        1: support.class.label.name.rgbds
+        2: keyword.operator.label.colon.rgbds
+    - match: ^\s*{{namingrule}}
+      scope: entity.name.tag.rgbds # function
+    - match: \b{{namingrule}}
+      scope: entity.name.function.rgbds # FIXME: this is actualyl an identifier, using function to get the colour I want :D
+
+    # misc stuff, some of these might be unnecessary
+    - match: '"'
+      scope: punctuation.definition.string.begin.rgbds
+      push: double_quoted_string
+    - match: ''''
+      scope: punctuation.definition.string.begin.rgbds
+      push: quoted_string
+    - match: ;
+      scope: punctuation.definition.comment.rgbds
+      push: line_comment
+    - match: '!|&|\*|\-|\+|~|/|\^'
+      scope: keyword.operator.rgbds
+    - match: \{|\}
+      scope: meta.brace.curly.rgbds
+    - match: \(|\)
+      scope: meta.brace.round.rgbds
+    - match: \[|\]
+      scope: meta.brace.square.rgbds
+
+    # numbers
+    - match: '[0-9]'
+      scope: constant.numeric.integer.decimal.rgbds
+    - match: \$[0-9a-fA-F]+
+      scope: constant.numeric.integer.hexadecimal.rgbds
+    - match: '\%[01]+'
+      scope: constant.numeric.integer.binary.rgbds
+
+
+  double_quoted_string:
+    - meta_scope: string.quoted.double.rgbds
+    - match: \\.
+      scope: constant.character.escape.rgbds
+    - match: '"'
+      scope: punctuation.definition.string.end.rgbds
+      pop: true
+  quoted_string:
+    - meta_scope: string.quoted.double.rgbds
+    - match: \\.
+      scope: constant.character.escape.rgbds
+    - match: ''''
+      scope: punctuation.definition.string.end.rgbds
+      pop: true
+  line_comment:
+    - meta_scope: comment.line.rgbds
+    - match: $
+      pop: true
