@@ -11,8 +11,10 @@ contexts:
     # stuff for the CPU
     - match: ^\s*(ld|ldi|ldd|ldh|push|pop|add|adc|sub|sbc|and|or|xor|cp|inc|dec|daa|cpl|rlca|rla|rrca|rra|rlc|rl|rrc|rr|sla|swap|sra|srl|bit|res|set|ccf|scf|nop|halt|stop|di|ei|jp|jr|call|ret|reti|rst)
       scope: keyword.rgbds
-    - match: (a|b|c|d|e|h|af|bc|de|hl|sp)
-      scope: variable.language.rgbds
+    - match: (af|bc|de|hl|sp|a|b|c|d|e|h)[\s,]
+      scope: source.rgbds
+      captures:
+        1: variable.language.registers.rgbds
 
     # stuff for the assembler
     - match: (MACRO|ENDM|IF|ENDC|REPT|ENDR|DB|DW|DS|INCLUDE|INCBIN|SECTION|EQU|FAIL|PUSHO|OPT|WARN|SET|POPO)
