@@ -9,7 +9,7 @@ variables:
 contexts:
   main:
     # stuff for the CPU
-    - match: ^\s*(ld|ldi|ldd|ldh|push|pop|add|adc|sub|sbc|and|or|xor|cp|inc|dec|daa|cpl|rlca|rla|rrca|rra|rlc|rl|rrc|rr|sla|swap|sra|srl|bit|res|set|ccf|scf|nop|halt|stop|di|ei|jp|jr|call|ret|reti|rst)
+    - match: ^\s*(ldi|ldd|ldh|ld|push|pop|add|adc|sub|sbc|and|or|xor|cp|inc|dec|daa|cpl|rlca|rla|rrca|rra|rlc|rl|rrc|rr|sla|swap|sra|srl|bit|res|set|ccf|scf|nop|halt|stop|di|ei|jp|jr|call|ret|reti|rst)
       scope: keyword.rgbds
     - match: (af|bc|de|hl|sp|a|b|c|d|e|h)[\s,]
       scope: source.rgbds
