@@ -8,14 +8,6 @@ variables:
   namingrule: '[a-zA-Z_][a-zA-Z_0-9\\@]*'
 contexts:
   main:
-    # stuff for the CPU
-    - match: ^\s*(ldi|ldd|ldh|ld|push|pop|add|adc|sub|sbc|and|or|xor|cp|inc|dec|daa|cpl|rlca|rla|rrca|rra|rlc|rl|rrc|rr|sla|swap|sra|srl|bit|res|set|ccf|scf|nop|halt|stop|di|ei|jp|jr|call|ret|reti|rst)
-      scope: keyword.rgbds
-    - match: (af|bc|de|hl|sp|a|b|c|d|e|h)[\s,]
-      scope: source.rgbds
-      captures:
-        1: variable.language.registers.rgbds
-
     # stuff for the assembler
     - match: (MACRO|ENDM|IF|ENDC|REPT|ENDR|DB|DW|DS|INCLUDE|INCBIN|SECTION|EQU|FAIL|PUSHO|OPT|WARN|SET|POPO)
       scope: support.function.rgbds
@@ -28,6 +20,14 @@ contexts:
       scope: entity.name.tag.rgbds # function
     - match: \b{{namingrule}}
       scope: entity.name.function.rgbds # FIXME: this is actualyl an identifier, using function to get the colour I want :D
+
+    # stuff for the CPU
+    - match: ^\s*(ldi|ldd|ldh|ld|push|pop|add|adc|sub|sbc|and|or|xor|cp|inc|dec|daa|cpl|rlca|rla|rrca|rra|rlc|rl|rrc|rr|sla|swap|sra|srl|bit|res|set|ccf|scf|nop|halt|stop|di|ei|jp|jr|call|ret|reti|rst)
+      scope: keyword.rgbds
+    - match: (af|bc|de|hl|sp|a|b|c|d|e|h)[\s,]
+      scope: source.rgbds
+      captures:
+        1: variable.language.registers.rgbds
 
     # misc stuff, some of these might be unnecessary
     - match: '"'
